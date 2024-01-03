@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200&display=swap');
+
+body {
+  font-family: 'Manrope', sans-serif;
+  background:#eee;
+}
+
+h2 {
+  font-size: 3.4rem;
+  color: #ff7cb8;
+text-shadow: 2.5px 2px 0 #7A7A7A, 2px 2px 2px rgba(0,0,0,0);
+ letter-spacing:1px;
+
+}
+
+.header,
+.table-striped {
+  background-color: #daf1ff;
+  opacity: 0.8;
+}
+
+.font-weight-bold {
+  font-weight: bold;
+}
+
+:focus {
+  outline: none;
+}
+
+/* necessary to give position: relative to parent. */
+input {
+  font: 15px/24px "Manrope", sans-serif;
+  color: #333;
+  box-sizing: border-box;
+  letter-spacing: 1px;
+  background: transparent;
+}
+
+:focus {
+  outline: none;
+}
+
+.size {
+  font-size: 11px;
+}
+
+.color {
+  font-size: 11px;
+}
+
+.product-data {
+  margin-right: 70px;
+}
+
+.add-to {
+  background-color: #ffcee4;
+  color: black;
+  font-size: 1.3rem;
+  border: 1px solid black;
+}
+
+.add-to:hover {
+  border: 1px solid #ff338f;
+}
+
+.add-to:focus {
+  border: 1px solid #ff7cb8;
+  box-shadow: none;
+}
+
+.text-grey {
+  color: #a39f9f;
+}
+
+.qty i {
+  font-size: 11px;
+}
+
+.fa-trash {
+  padding-left: 10px;
+}
+
+.quantity {
+  position: relative;
+  text-align: center;
+  align-items: center;
+}
+
+.effect {
+  border: 0;
+  padding: 5px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+.effect ~ .focus-border {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #ff7cb8;
+  transition: 0.4s;
+}
+
+.effect:focus ~ .focus-border {
+  width: 100%;
+  transition: 0.4s;
+}
