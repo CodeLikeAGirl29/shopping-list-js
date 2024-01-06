@@ -6,6 +6,8 @@
 
 Welcome to the Shopping List project, a hands-on coding challenge designed for [Altcademy](https://www.altcademy.com/classroom/courses/jqueryium/assignments/6567b0747c1c9a0002aceee2) bootcamp participants. In this project, you'll be creating a dynamic and interactive shopping list application using JavaScript and Bootstrap.
 
+![screenshot](https://res.cloudinary.com/codelikeagirl29/image/upload/v1704523337/projects/Shopping-Cart_e6gg6q.png)
+
 **Project Overview:**
 In this project, you will build a web-based shopping list application that allows users to add items, specify quantities, and view the total cost of their shopping cart. The application will feature a responsive and user-friendly interface using the Bootstrap framework, ensuring a seamless experience across different devices.
 
