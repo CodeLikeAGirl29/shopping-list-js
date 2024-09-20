@@ -1,77 +1,80 @@
-var calcSubTotal = function (element) {
-	var itemPrice = $(element).find(".price").text().substring(1);
-	var itemQuantity = parseFloat($(element).find(".quantity input").val());
-	if (isNaN(itemQuantity)) {
-		itemQuantity = 0;
-	}
-	var subTotal = itemPrice * itemQuantity;
-	return subTotal;
+// Helper function to calculate subtotal for each row
+var calcSubTotal = function(element) {
+  var itemPrice = parseFloat($(element).find(".price").text().substring(1));
+  var itemQuantity = parseFloat($(element).find(".quantity input").val());
+  if (isNaN(itemQuantity)) {
+    itemQuantity = 0;
+  }
+  return itemPrice * itemQuantity;
 };
-var updateSubTotal = function (element) {
-	var prices = [];
-	$("tbody tr").each(function (index, element) {
-		var subTotal = parseFloat(calcSubTotal(element));
-		prices.push(subTotal);
-		$(element)
-			.children(".subTotal")
-			.html("$" + subTotal.toFixed(2));
-	});
-	console.log(prices);
-	return prices;
+
+// Update each subtotal
+var updateSubTotal = function() {
+  var prices = [];
+  $("#product-list tr").each(function() {
+    var subTotal = calcSubTotal(this);
+    prices.push(subTotal);
+    $(this).find(".subTotal").html("$" + subTotal.toFixed(2));
+  });
+  return prices;
 };
-var sum = function (total, num) {
-	return total + num;
-};
+
+// Calculate total
 const updateCartTotal = () => {
-	const subTotal = updateSubTotal();
-	const cartTotal = subTotal.reduce((acc, val) => acc + val, 0).toFixed(2);
-	$("#cartTotal").html(cartTotal);
+  const subTotals = updateSubTotal();
+  const total = subTotals.reduce((acc, val) => acc + val, 0).toFixed(2);
+  $("#cartTotal").html(total);
 };
-$(document).ready(function () {
-	updateCartTotal();
-	var timeout;
 
-	$(document).on("input", "tr input", function () {
-		clearTimeout(timeout);
-		timeout = setTimeout(function () {
-			updateCartTotal();
-		}, 800);
-	});
+// On document ready
+$(document).ready(function() {
+  updateCartTotal(); // Initial calculation
+  var timeout;
 
-	$(document).on("click", ".btn.remove", function (event) {
-		$(this).closest("tr").remove();
-		updateCartTotal();
-	});
+  // Update subtotal and total on quantity change
+  $(document).on("input", ".quantity input", function() {
+    clearTimeout(timeout);
+    timeout = setTimeout(function() {
+      updateCartTotal();
+    }, 500); // Debounce for 500ms
+  });
 
-	// Change the selector to use the class "add-to" for the click event
-	$(document).on("click", ".add-to", function (event) {
-		// Use the correct form selector
-		var item = $("#addItem [name=itemName]").val();
-		var price = parseFloat($("#addItem [name=price]").val()).toFixed(2);
+  // Remove item from the cart
+  $(document).on("click", ".btn.remove", function() {
+    $(this).closest("tr").remove();
+    updateCartTotal();
+  });
 
-		$("tbody").append(
-			`<tr>
-                <td class="item font-weight-bold">${item}</td>
-               	<td class="price text-center">$${price}</td>
-               			<td class="quantity">
-                    <input
-												class="effect text-center"
-												type="number"
-												value="0"
-												min="0"
-											/>
-											<span class="focus-border"> </span>
-										</td>
-              		<td class="subTotal text-center"></td>
-										<td>
-											<button class="btn btn-sm remove">
-												Remove <i class="fa fa-trash mb-1 p-4 text-danger"></i>
-											</button>
-										</td>`
-		);
+  // Add new item to the cart
+  $(".add-to").click(function() {
+    var item = $("#addItem [name=itemName]").val();
+    var price = parseFloat($("#addItem [name=price]").val()).toFixed(2);
 
-		updateCartTotal();
-		$("#addItem [name=itemName]").val("");
-		$("#addItem [name=price]").val("");
-	});
+    if (!item || isNaN(price)) {
+      alert("Please enter valid item details");
+      return;
+    }
+
+    $("#product-list").append(
+      `<tr>
+				<td>${item}</td>
+				<td class="price text-center">$${price}</td>
+				<td>
+					<input class="form-control text-center" type="number" value="0" min="0" />
+				</td>
+				<td class="subTotal text-center">$0.00</td>
+				<td class="text-center">
+					<button class="btn btn-danger btn-sm remove">
+						<i class="fa fa-trash"></i> Remove
+					</button>
+				</td>
+			</tr>`
+    );
+
+    // Reset form fields
+    $("#addItem [name=itemName]").val("");
+    $("#addItem [name=price]").val("");
+
+    updateCartTotal();
+  });
 });
